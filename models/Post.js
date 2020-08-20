@@ -70,10 +70,8 @@ Post.add = (post, userId, callback) => {
     if (userId) post.user_id = userId;
 
     db.query(query, post, (err, result) => {
-        if (err) {
-            callback(dbError(err), null);
-            return;
-        }
+        if (err)
+            return callback(dbError(err), null);
         
         callback(null, result.insertId);
     });
@@ -95,14 +93,9 @@ Post.update = (id, title, url, callback) => {
 Post.delete = (id, callback) => {
     const query = 'DELETE FROM post WHERE id = ?';
     db.query(query, [id], (err, result) => {
-        if (err) {
-            callback(
-                dbError(err, 0, 'Error during post delete'),
-                null
-            );
-            return;
-        }
-
+        if (err)
+            return callback(dbError(err, 0, 'Error during post delete'), null);
+ 
         return callback(null, result.affectedRows);
     });
 };
