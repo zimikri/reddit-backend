@@ -1,5 +1,7 @@
 # Reddit Application API spec
 
+This is just a simple reddit backend clone for learning purposes :smiley:
+
 ## `GET /posts`
 
 ### Request
