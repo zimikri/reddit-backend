@@ -8,11 +8,13 @@ let Post = function (post) { };
 Post.list = function (username, callback) {
     const query = `
         SELECT p.id, p.title, p.url, p.timestamp, p.score, owner.username AS owner, IFNULL(uv.vote, 0) AS vote
-        FROM post p
-        LEFT JOIN user AS owner ON (owner.id = p.user_id)
-        LEFT JOIN vote uv ON (uv.post_id = p.id)
-        LEFT JOIN user u ON (u.id = uv.user_id AND u.username = ?)
-        ORDER BY p.id ASC
+        FROM posts p
+        LEFT JOIN users AS owner ON (owner.id = p.user_id)
+        LEFT JOIN (SELECT v.post_id, v.vote 
+            FROM votes v ON (v.post_id = p.id)
+            INNER JOIN users u ON (u.id = v.user_id AND u.username = ?)
+        ) AS uv ON (uv.post_id = p.id)
+        ORDER BY p.score DESC
     `;
 
     db.query(query, [username], (err, posts) => {
@@ -28,10 +30,12 @@ Post.list = function (username, callback) {
 Post.item = (postId, username, callback) => {
     const query = `
         SELECT p.id, p.title, p.url, p.timestamp, p.score, owner.username AS owner, IFNULL(uv.vote, 0) AS vote
-        FROM post p
-        LEFT JOIN user AS owner ON (owner.id = p.user_id)
-        LEFT JOIN vote uv ON (uv.post_id = p.id)
-        LEFT JOIN user u ON (u.id = uv.user_id AND u.username = ?)
+        FROM posts p
+        LEFT JOIN users AS owner ON (owner.id = p.user_id)
+        LEFT JOIN (SELECT v.post_id, v.vote 
+            FROM votes v ON (v.post_id = p.id)
+            INNER JOIN users u ON (u.id = v.user_id AND u.username = ?)
+        ) AS uv ON (uv.post_id = p.id)
         WHERE p.id = ?
     `;
 
