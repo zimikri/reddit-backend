@@ -4,7 +4,7 @@
   "description": "Import the bookstore database from [here](../../sql-basics/assets/data.sql).",
   "main": "index.js",
   "scripts": {
-    "start": "node app.ls",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
