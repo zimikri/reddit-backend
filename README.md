@@ -149,18 +149,16 @@ Body:
 }
 ```
 
-## Optional Feature endpoints
+## `DELETE /posts/<id>`
 
-### `DELETE /posts/<id>`
-
-#### Request
+### Request
 
 Headers:
 
 - Accept: `application/json`
 - Username: username
 
-#### Response
+### Response
 
 Status Code: 200
 
@@ -183,9 +181,9 @@ Body:
 }
 ```
 
-### `PUT /posts/<id>`
+## `PUT /posts/<id>`
 
-#### Request
+### Request
 
 Headers:
 
@@ -202,7 +200,7 @@ Body:
 }
 ```
 
-#### Response
+### Response
 
 Status Code: 200
 
