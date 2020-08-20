@@ -9,7 +9,7 @@ User.list = function (id, username, callback) {
     const cond = [];
     const condValues = [];
 
-    let query = `SELECT * FROM user`;
+    let query = `SELECT * FROM users`;
     if (id) {
         cond.push(`id = ?`);
         condValues.push(id);
@@ -41,7 +41,7 @@ User.add = function (username, callback) {
             return callback(err, null);
 
         if (!user) {
-            const query = `INSERT IGNORE INTO user SET ?`;
+            const query = `INSERT IGNORE INTO users SET username = ?`;
             db.query(query, [username], (err, result) => {
                 if (err)
                     return callback(dbError(err), null);
