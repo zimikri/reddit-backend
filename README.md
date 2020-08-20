@@ -1,27 +1,223 @@
-# Bookstore endpoints
+# Reddit Application API spec
 
-Import the bookstore database from [here](../../sql-basics/assets/data.sql).
+## `GET /posts`
 
-## List book titles
+### Request
 
-- Create an API endpoint that lists all book titles
-- Return an HTML file containing this list
+Headers:
 
-## All books with full data
+- Accept: `application/json`
+- (Optional) Username: username
 
-- List the following data: - title of book - name of author - category - name of
-  publisher - price
-- Return an HTML file with a `<table>` that contains these information
+### Response
 
-## Create filters
+Status Code: 200
 
-- Add filtering options to the previous endpoint
-- If a filter exists, only list records in case the cell matches the filter's
-  value
-- Implement these filters as query string parameters: - Category as `category` -
-  Publisher as `publisher` - Price lower than as `plt` - Price greater than as
-  `pgt`
-- Multiple filters can be present at the same time
+Headers:
 
-For example `/books?category=Science` should only return books in the Science
-category.
+- Content-Type: `application/json`
+
+Body:
+
+```json
+{
+  "posts": [
+    {
+      "id": 25,
+      "title": "Dear JavaScript",
+      "url": "http://9gag.com",
+      "timestamp": 1494339525,
+      "score": 791,
+      "owner": null,
+      "vote": 1
+    },
+    {
+      "id": 74,
+      "title": "Crockford",
+      "url": "http://9gag.com",
+      "timestamp": 1494138425,
+      "score": 567,
+      "owner": "kristof4",
+      "vote": -1
+    }
+  ]
+}
+```
+
+## `POST /posts`
+
+### Request
+
+Headers:
+
+- Accept: `application/json`
+- Content-Type: `application/json`
+- Username: Kristof4
+
+Body:
+
+```json
+{
+  "title": "Crockford",
+  "url": "http://9gag.com"
+}
+```
+
+### Response
+
+Status Code: 200
+
+Headers:
+
+- Content-Type: `application/json`
+
+Body:
+
+```json
+{
+  "id": 74,
+  "title": "Crockford",
+  "url": "http://9gag.com",
+  "timestamp": 1494138425,
+  "score": 0,
+  "owner": "kristof4",
+  "vote": 0
+}
+```
+
+## `PUT /posts/<id>/upvote`
+
+### Request
+
+Headers:
+
+- Accept: `application/json`
+- Username: username
+
+### Response
+
+Status Code: 200
+
+Headers:
+
+- Content-Type: `application/json`
+
+Body:
+
+```json
+{
+  "id": 74,
+  "title": "Crockford",
+  "url": "http://9gag.com",
+  "timestamp": 1494138425,
+  "score": 1,
+  "owner": "kristof4",
+  "vote": 1
+}
+```
+
+## `PUT /posts/<id>/downvote`
+
+### Request
+
+Headers:
+
+- Accept: `application/json`
+- Username: username
+
+### Response
+
+Status Code: 200
+
+Headers:
+
+- Content-Type: `application/json`
+
+Body:
+
+```json
+{
+  "id": 74,
+  "title": "Crockford",
+  "url": "http://9gag.com",
+  "timestamp": 1494138425,
+  "score": -1,
+  "owner": "kristof4",
+  "vote": -1
+}
+```
+
+## Optional Feature endpoints
+
+### `DELETE /posts/<id>`
+
+#### Request
+
+Headers:
+
+- Accept: `application/json`
+- Username: username
+
+#### Response
+
+Status Code: 200
+
+Headers:
+
+- Content-Type: `application/json`
+- Username: username
+
+Body:
+
+```json
+{
+  "id": 25,
+  "title": "Dear JavaScript",
+  "url": "http://9gag.com",
+  "timestamp": 1494339525,
+  "score": 791,
+  "owner": null,
+  "vote": 1
+}
+```
+
+### `PUT /posts/<id>`
+
+#### Request
+
+Headers:
+
+- Accept: `application/json`
+- Content-Type: `application/json`
+- Username: username
+
+Body:
+
+```json
+{
+  "title": "modified title",
+  "url": "http://facebook.com"
+}
+```
+
+#### Response
+
+Status Code: 200
+
+Headers:
+
+- Content-Type: `application/json`
+
+Body:
+
+```json
+{
+  "id": 25,
+  "title": "modified title",
+  "url": "http://facebook.com",
+  "timestamp": 1494339525,
+  "score": 791,
+  "owner": null,
+  "vote": 1
+}
+```
