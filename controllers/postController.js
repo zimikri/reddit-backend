@@ -68,7 +68,12 @@ const postController = function(app) {
                 if (post.owner !== req.headers.username)
                     return res.status(403).json({ error: `You can only update your own posts` });
 
-                Post.update(req.params.id, req.body.title, req.body.url, (err) => {
+                const updatePost = {};
+                updatePost.id = req.params.id;
+                if (req.body.title) updatePost.title = req.body.title;
+                if (req.body.url) updatePost.url = req.body.url;
+            
+                Post.update(updatePost, (err) => {
                     if (err) 
                         return res.status(err.resCode).json({ error: err.clientMessage });
                     

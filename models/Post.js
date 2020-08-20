@@ -11,7 +11,7 @@ Post.list = function (username, callback) {
         FROM posts p
         LEFT JOIN users AS owner ON (owner.id = p.user_id)
         LEFT JOIN (SELECT v.post_id, v.vote 
-            FROM votes v ON (v.post_id = p.id)
+            FROM votes v
             INNER JOIN users u ON (u.id = v.user_id AND u.username = ?)
         ) AS uv ON (uv.post_id = p.id)
         ORDER BY p.score DESC
@@ -33,7 +33,7 @@ Post.item = (postId, username, callback) => {
         FROM posts p
         LEFT JOIN users AS owner ON (owner.id = p.user_id)
         LEFT JOIN (SELECT v.post_id, v.vote 
-            FROM votes v ON (v.post_id = p.id)
+            FROM votes v
             INNER JOIN users u ON (u.id = v.user_id AND u.username = ?)
         ) AS uv ON (uv.post_id = p.id)
         WHERE p.id = ?
@@ -54,7 +54,7 @@ Post.item = (postId, username, callback) => {
 };
 
 Post.vote = (postId, vote, callback) => {
-    const query = `UPDATE post SET score = score + ? WHERE id = ?`;
+    const query = `UPDATE posts SET score = score + ? WHERE id = ?`;
     db.query(query, [vote, postId], (err, result) => {
         if (err) {
             callback(dbError(err), null);
@@ -66,7 +66,7 @@ Post.vote = (postId, vote, callback) => {
 };
 
 Post.add = (post, userId, callback) => {
-    let query = `INSERT INTO post SET timestamp=UNIX_TIMESTAMP(), ?`;
+    let query = `INSERT INTO posts SET timestamp=UNIX_TIMESTAMP(), ?`;
     if (userId) post.user_id = userId;
 
     db.query(query, post, (err, result) => {
@@ -77,16 +77,17 @@ Post.add = (post, userId, callback) => {
     });
 };
 
-Post.update = (id, title, url, callback) => {
-    const timestamp = Math.floor(Date.now() / 1000);
-    const query = 'UPDATE post SET title = ?, url = ?, timestamp = ? WHERE id = ?';
-    db.query(query, [title, url, timestamp, id], (err, result) => {
+Post.update = (updatePost, callback) => {
+    updatePost.timestamp = Math.floor(Date.now() / 1000);
+
+    const query = 'UPDATE posts SET ? WHERE id = ?';
+    db.query(query, [updatePost, updatePost.id], (err, result) => {
         if (err) {
-            callback(dbError(err), null);
+            callback(dbError(err));
             return;
         }
 
-        return callback(null, timestamp);
+        return callback(null);
     });
 };
 
