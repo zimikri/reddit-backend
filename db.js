@@ -17,4 +17,13 @@ conn.connect((err) => {
     console.log('Successfully connected to DB.');
 });
 
-module.exports = conn;
+const dbError = (err, code=0, message = '') => {
+    err.clientMessage = message || 'Error during DB query';
+    err.resCode = code || 500;
+    console.error(`${err.clientMessage}: `, err);
+
+    return err;
+};
+
+module.exports.db = conn;
+module.exports.dbError = dbError;

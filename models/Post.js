@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require('../db');
+const {db, dbError} = require('../db');
 const Vote = require('./Vote');
 
 let Post = function (post) { };
@@ -19,7 +19,7 @@ Post.list = function (username, callback) {
 
     db.query(query, [username], (err, posts) => {
         if (err) {
-            callback(Post.setClientDbError(err), null);
+            callback(dbError(err), null);
             return;
         }
 
@@ -41,11 +41,11 @@ Post.item = (postId, username, callback) => {
 
     db.query(query, [username, postId], (err, posts) => {
         if (err) {
-            callback(Post.setClientDbError(err), null);
+            callback(dbError(err), null);
             return;
         }
         if (!posts[0]) {
-            callback(Post.setClientDbError({}, 400, `Can't find the post`), null);
+            callback(dbError({}, 400, `Can't find the post`), null);
             return;
         }
 
@@ -57,7 +57,7 @@ Post.vote = (postId, vote, callback) => {
     const query = `UPDATE post SET score = score + ? WHERE id = ?`;
     db.query(query, [vote, postId], (err, result) => {
         if (err) {
-            callback(Post.setClientDbError(err), null);
+            callback(dbError(err), null);
             return;
         }
             
@@ -71,7 +71,7 @@ Post.add = (post, userId, callback) => {
 
     db.query(query, post, (err, result) => {
         if (err) {
-            callback(Post.setClientDbError(err), null);
+            callback(dbError(err), null);
             return;
         }
         
@@ -84,7 +84,7 @@ Post.update = (id, title, url, callback) => {
     const query = 'UPDATE post SET title = ?, url = ?, timestamp = ? WHERE id = ?';
     db.query(query, [title, url, timestamp, id], (err, result) => {
         if (err) {
-            callback(Post.setClientDbError(err), null);
+            callback(dbError(err), null);
             return;
         }
 
@@ -97,7 +97,7 @@ Post.delete = (id, callback) => {
     db.query(query, [id], (err, result) => {
         if (err) {
             callback(
-                Post.setClientDbError(err, 0, 'Error during post delete'),
+                dbError(err, 0, 'Error during post delete'),
                 null
             );
             return;
@@ -105,14 +105,6 @@ Post.delete = (id, callback) => {
 
         return callback(null, result.affectedRows);
     });
-};
-
-Post.setClientDbError = (err, code=0, message = '') => {
-    err.clientMessage = message || 'Error during DB query';
-    err.resCode = code || 500;
-    console.error(`${err.clientMessage}: `, err);
-
-    return err;
 };
 
 module.exports = Post;

@@ -1,25 +1,8 @@
 'use strict';
 
-const db = require('../db');
+const {db, dbError} = require('../db');
 
-let User = function (user) {
-    
-    // if (user.id) User.id = user.id;
-    // User.username = user.username;
-
-    // if (!user.id || !user.username)
-    //     user = User.list(user.id, user.username, (err, user) => {
-    //         if (err) {
-    //             return;
-    //         }
-    //         if (user) {
-    //             User.id = user.id;
-    //             User.username = user.username;
-    //         }
-    //     });
-    
-    // return User;
-};
+let User = function () { };
 
 User.list = function (id, username, callback) {
     username = username || '';
@@ -39,7 +22,7 @@ User.list = function (id, username, callback) {
         
     db.query(query, condValues, (err, users) => {
         if (err) {
-            callback(User.setClientDbError(err), null);
+            callback(dbError(err), null);
             return;
         }
         if ((id || username) && users) return callback(null, users[0]);
@@ -57,7 +40,7 @@ User.add = function (username, callback) {
     const query = `INSERT IGNORE INTO user SET ?`;
     db.query(query, [username], (err, result) => {
         if (err) {
-            callback(User.setClientDbError(err), null);
+            callback(dbError(err), null);
             return;
         }
         // TODO: handle if user existed before
@@ -75,24 +58,16 @@ User.getUserByUsername = (username, callback) => {
     const query = `SELECT * FROM user WHERE username = ?`;
     db.query(query, [username], (err, user) => {
         if (err) {
-            callback(User.setClientDbError(err), null);
+            callback(dbError(err), null);
             return;
         }
         if (!user[0]) {
-            callback(User.setClientDbError({}, 401, `There is no registered user with usename: ${username}`), null);
+            callback(dbError({}, 401, `There is no registered user with usename: ${username}`), null);
             return;
         }
         
         return callback(null, user[0]);
     });
-};
-
-User.setClientDbError = (err, code = 0, message = '') => {
-    err.clientMessage = message || 'Error during DB query';
-    err.resCode = code || 500;
-    console.error(`${err.clientMessage}: `, err);
-
-    return err;
 };
 
 module.exports = User;
