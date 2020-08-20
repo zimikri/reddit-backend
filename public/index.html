@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Simple reddit backend API</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='https://github.githubassets.com/assets/frameworks-8c550109d58e0353afdf1a37a05301c2.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='https://github.githubassets.com/assets/github-36f60e1fc11f3e85242ffa676dd886fe.css'>
+        <style type="text/css">
+          main {
+              margin: 50px auto;
+              width: 900px;
+              max-width: 100%;
+          }
+
+          .markdown-body h2 {
+              margin-top: 50px;
+          }
+
+          .markdown-body h2 code {
+              background-color: rgba(49, 86, 122, 0.2);
+          }
+        </style>
+    </head>
+    <body>
+        <main>
+          <div id="readme" class="Box md js-code-block-container Box--responsive">
+        
+              <div class="Box-body px-5 pb-5">
+                <article class="markdown-body entry-content container-lg" itemprop="text"><h1><a id="user-content-reddit-application-api-spec" class="anchor" aria-hidden="true" href="#reddit-application-api-spec">
+                  
+                </a>Simple Reddit clone API spec</h1>
+        <p>This is just a simple reddit backend clone for learning purposes <g-emoji class="g-emoji" alias="smiley" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f603.png">😃</g-emoji></p>
+        <h2><a id="user-content-get-posts" class="anchor" aria-hidden="true" href="#get-posts">
+
+        </a><code>GET /posts</code></h2>
+        <h3><a id="user-content-request" class="anchor" aria-hidden="true" href="#request">
+          
+        </a>Request</h3>
+        <p>Headers:</p>
+        <ul>
+        <li>Accept: <code>application/json</code></li>
+        <li>(Optional) Username: username</li>
+        </ul>
+        <h3>Response</h3>
+        <p>Status Code: 200</p>
+        <p>Headers:</p>
+        <ul>
+        <li>Content-Type: <code>application/json</code></li>
+        </ul>
+        <p>Body:</p>
+        <div class="highlight highlight-source-json"><pre>{
+          <span class="pl-s"><span class="pl-pds">"</span>posts<span class="pl-pds">"</span></span>: [
+            {
+              <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-c1">25</span>,
+              <span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Dear JavaScript<span class="pl-pds">"</span></span>,
+              <span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://9gag.com<span class="pl-pds">"</span></span>,
+              <span class="pl-s"><span class="pl-pds">"</span>timestamp<span class="pl-pds">"</span></span>: <span class="pl-c1">1494339525</span>,
+              <span class="pl-s"><span class="pl-pds">"</span>score<span class="pl-pds">"</span></span>: <span class="pl-c1">791</span>,
+              <span class="pl-s"><span class="pl-pds">"</span>owner<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,
+              <span class="pl-s"><span class="pl-pds">"</span>vote<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>
+            },
+            {
+              <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-c1">74</span>,
+              <span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Crockford<span class="pl-pds">"</span></span>,
+              <span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://9gag.com<span class="pl-pds">"</span></span>,
+              <span class="pl-s"><span class="pl-pds">"</span>timestamp<span class="pl-pds">"</span></span>: <span class="pl-c1">1494138425</span>,
+              <span class="pl-s"><span class="pl-pds">"</span>score<span class="pl-pds">"</span></span>: <span class="pl-c1">567</span>,
+              <span class="pl-s"><span class="pl-pds">"</span>owner<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>kristof4<span class="pl-pds">"</span></span>,
+              <span class="pl-s"><span class="pl-pds">"</span>vote<span class="pl-pds">"</span></span>: <span class="pl-c1">-1</span>
+            }
+          ]
+        }</pre></div>
+        <h2>
+          <code>POST /posts</code></h2>
+        <h3>Request</h3>
+        <p>Headers:</p>
+        <ul>
+        <li>Accept: <code>application/json</code></li>
+        <li>Content-Type: <code>application/json</code></li>
+        <li>Username: Kristof4</li>
+        </ul>
+        <p>Body:</p>
+        <div class="highlight highlight-source-json"><pre>{
+          <span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Crockford<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://9gag.com<span class="pl-pds">"</span></span>
+        }</pre></div>
+        <h3>Response</h3>
+        <p>Status Code: 200</p>
+        <p>Headers:</p>
+        <ul>
+        <li>Content-Type: <code>application/json</code></li>
+        </ul>
+        <p>Body:</p>
+        <div class="highlight highlight-source-json"><pre>{
+          <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-c1">74</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Crockford<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://9gag.com<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>timestamp<span class="pl-pds">"</span></span>: <span class="pl-c1">1494138425</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>score<span class="pl-pds">"</span></span>: <span class="pl-c1">0</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>owner<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>kristof4<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>vote<span class="pl-pds">"</span></span>: <span class="pl-c1">0</span>
+        }</pre></div>
+        <h2><code>PUT /posts/&lt;id&gt;/upvote</code></h2>
+        <h3>Request</h3>
+        <p>Headers:</p>
+        <ul>
+        <li>Accept: <code>application/json</code></li>
+        <li>Username: username</li>
+        </ul>
+        <h3>Response</h3>
+        <p>Status Code: 200</p>
+        <p>Headers:</p>
+        <ul>
+        <li>Content-Type: <code>application/json</code></li>
+        </ul>
+        <p>Body:</p>
+        <div class="highlight highlight-source-json"><pre>{
+          <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-c1">74</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Crockford<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://9gag.com<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>timestamp<span class="pl-pds">"</span></span>: <span class="pl-c1">1494138425</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>score<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>owner<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>kristof4<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>vote<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>
+        }</pre></div>
+        <h2><code>PUT /posts/&lt;id&gt;/downvote</code></h2>
+        <h3>Request</h3>
+        <p>Headers:</p>
+        <ul>
+        <li>Accept: <code>application/json</code></li>
+        <li>Username: username</li>
+        </ul>
+        <h3>Response</h3>
+        <p>Status Code: 200</p>
+        <p>Headers:</p>
+        <ul>
+        <li>Content-Type: <code>application/json</code></li>
+        </ul>
+        <p>Body:</p>
+        <div class="highlight highlight-source-json"><pre>{
+          <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-c1">74</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Crockford<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://9gag.com<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>timestamp<span class="pl-pds">"</span></span>: <span class="pl-c1">1494138425</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>score<span class="pl-pds">"</span></span>: <span class="pl-c1">-1</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>owner<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>kristof4<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>vote<span class="pl-pds">"</span></span>: <span class="pl-c1">-1</span>
+        }</pre></div>
+        <h2><code>DELETE /posts/&lt;id&gt;</code></h2>
+        <h3>Request</h3>
+        <p>Headers:</p>
+        <ul>
+        <li>Accept: <code>application/json</code></li>
+        <li>Username: username</li>
+        </ul>
+        <h3>Response</h3>
+        <p>Status Code: 200</p>
+        <p>Headers:</p>
+        <ul>
+        <li>Content-Type: <code>application/json</code></li>
+        <li>Username: username</li>
+        </ul>
+        <p>Body:</p>
+        <div class="highlight highlight-source-json"><pre>{
+          <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-c1">25</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Dear JavaScript<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://9gag.com<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>timestamp<span class="pl-pds">"</span></span>: <span class="pl-c1">1494339525</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>score<span class="pl-pds">"</span></span>: <span class="pl-c1">791</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>owner<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>vote<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>
+        }</pre></div>
+        <h2><code>PUT /posts/&lt;id&gt;</code></h2>
+        <h3>Request</h3>
+        <p>Headers:</p>
+        <ul>
+        <li>Accept: <code>application/json</code></li>
+        <li>Content-Type: <code>application/json</code></li>
+        <li>Username: username</li>
+        </ul>
+        <p>Body:</p>
+        <div class="highlight highlight-source-json"><pre>{
+          <span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>modified title<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://facebook.com<span class="pl-pds">"</span></span>
+        }</pre></div>
+        <h3>Response</h3>
+        <p>Status Code: 200</p>
+        <p>Headers:</p>
+        <ul>
+        <li>Content-Type: <code>application/json</code></li>
+        </ul>
+        <p>Body:</p>
+        <div class="highlight highlight-source-json"><pre>{
+          <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-c1">25</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>modified title<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://facebook.com<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>timestamp<span class="pl-pds">"</span></span>: <span class="pl-c1">1494339525</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>score<span class="pl-pds">"</span></span>: <span class="pl-c1">791</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>owner<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,
+          <span class="pl-s"><span class="pl-pds">"</span>vote<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>
+        }</pre></div>
+        </article>
+              </div>
+          </div>
+        </main>
+    </body>
+</html>
