@@ -25,7 +25,6 @@ User.list = function (id, username, callback) {
             callback(dbError(err), null);
             return;
         }
-        if ((id || username) && users) return callback(null, users[0]);
 
         callback(null, users);
     });
@@ -36,38 +35,69 @@ User.add = function (username, callback) {
         callback({ resCode: 400, clientMessage: 'Empty username' }, null);
         return
     }
-    
-    const query = `INSERT IGNORE INTO user SET ?`;
-    db.query(query, [username], (err, result) => {
-        if (err) {
-            callback(dbError(err), null);
-            return;
+
+    User.exists(0, username, (err, user) => {
+        if (err)
+            return callback(err, null);
+
+        if (!user) {
+            const query = `INSERT IGNORE INTO user SET ?`;
+            db.query(query, [username], (err, result) => {
+                if (err)
+                    return callback(dbError(err), null);
+        
+                callback(null, {
+                    id: result.insertId,
+                    username: username,
+                });
+            });
+        } else {
+            return callback(null, user);
         }
-        // TODO: handle if user existed before
-        callback(null, result.insertId);
     });
 }
 
-User.getUserByUsername = (username, callback) => {
+User.validate = (username, callback) => {
     if (!username)
         return callback({
             resCode: 401,
             clientMessage: 'You should send username in header to use this resource!',
         }, null);
 
-    const query = `SELECT * FROM user WHERE username = ?`;
-    db.query(query, [username], (err, user) => {
-        if (err) {
-            callback(dbError(err), null);
-            return;
+    User.exists(0, username, (err, user) => {
+        if (err)
+            return callback(err, null);
+
+        if (!user) {
+            User.add(username, (err, newUser) => {
+                if (err)
+                    return callback(err, null);
+                
+                return callback(null, newUser);
+            });
+        } else {
+            return callback(null, user);
         }
-        if (!user[0]) {
-            callback(dbError({}, 401, `There is no registered user with usename: ${username}`), null);
-            return;
-        }
-        
-        return callback(null, user[0]);
     });
 };
+
+User.exists = (id, username, callback) => {
+    if (!id && !username)
+        return callback({
+            adminMesage: 'Empty id and username in User.exists check',
+            resCode: 500,
+            clientMessage: 'Something went wrong',
+        }, null);
+
+        User.list(id, username, (err, users) => {
+            if (err)
+                return callback(err, null);
+    
+            if (users.length == 0)
+                return callback(null, null);
+    
+            return callback(null, users[0]);
+        });
+}
 
 module.exports = User;
