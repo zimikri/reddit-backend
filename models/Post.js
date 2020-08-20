@@ -92,7 +92,7 @@ Post.update = (updatePost, callback) => {
 };
 
 Post.delete = (id, callback) => {
-    const query = 'DELETE FROM post WHERE id = ?';
+    const query = 'DELETE FROM posts WHERE id = ?';
     db.query(query, [id], (err, result) => {
         if (err)
             return callback(dbError(err, 0, 'Error during post delete'), null);

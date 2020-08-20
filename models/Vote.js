@@ -5,7 +5,7 @@ const Vote = () => { };
 
 Vote.add = (postId, userId, voteValue, callback) => {
     const query = `
-        INSERT INTO vote (post_id, user_id, vote) 
+        INSERT INTO votes (post_id, user_id, vote) 
         VALUES(?, ?, ?)
         ON DUPLICATE KEY UPDATE vote = vote + VALUES(vote)
     `;
