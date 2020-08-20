@@ -1,9 +1,6 @@
 .DS_Store
 teszt*
 node_modules
-setting.json
-tsconfig.json
-tmp
 
 # Created by https://www.gitignore.io/api/visualstudiocode
 # Edit at https://www.gitignore.io/?templates=visualstudiocode
