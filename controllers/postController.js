@@ -26,8 +26,9 @@ const postController = function(app) {
     });
 
     app.post('/posts', (req, res) => {
-        const postValidMessage = postValidator(req.body);
-        if (postValidMessage) return res.status(400).json({ error: postValidMessage });
+        const invalidPost = postTitleValidator(req.body) + postUrlValidator(req.body);
+        if (invalidPost)
+            return res.status(400).json({ error: invalidPost });
 
         User.validate(req.headers.username, (err, user) => {
             if (err)
@@ -51,6 +52,12 @@ const postController = function(app) {
     });
 
     app.put('/posts/:id', (req, res) => {
+        const invalidTitle = req.body.title ? postTitleValidator(req.body) : '';
+        const invalidUrl = req.body.url ? postUrlValidator(req.body) : '';
+        const invalidUpdate = invalidTitle + invalidUrl;
+        if (invalidUpdate)
+            return res.status(400).json({ error: invalidUpdate });
+
         User.validate(req.headers.username, (err, user) => {
             if (err) return res.status(err.resCode).json({ error: err.clientMessage });
             
@@ -124,19 +131,23 @@ const postController = function(app) {
 
     const sendPost = (req, res, postId) => {
         Post.item(postId, req.headers.username, (err, post) => {
-            if (err) 
+            if (err)
                 return res.status(err.resCode).json({ error: err.clientMessage });
             
             res.json(post);
         });
-    }
+    };
 
-    const postValidator = (post) => {
+    const postTitleValidator = (post) => {
         if (!post.title) return `You can't add post with empty title`;
+        return '';
+    };
+
+    const postUrlValidator = (post) => {
         if (!post.url) return `You can't add post with empty url`;
         if (post.url.match(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm) === null) return 'Misformatted url';
         return '';
-    }
+    };
 };
 
 module.exports.postController = postController;
